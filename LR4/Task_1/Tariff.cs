@@ -8,11 +8,11 @@ class Tariff
     get { return monthlyFee; }
     set
     {
-      if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
+      if (value < 0) throw new ArgumentOutOfRangeException(nameof(value), "Monthly fee cannot be negative");
       monthlyFee = value;
     }
   }
-  
+
   public Tariff(decimal monthlyFee)
   {
     MonthlyFee = monthlyFee;
@@ -23,35 +23,24 @@ class Tariff
     if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount), "Increase amount cannot be negative");
     monthlyFee += amount;
   }
+
   public void IncreaseFee(int percent)
   {
     if (percent < 0) throw new ArgumentOutOfRangeException(nameof(percent), "Increase percent cannot be negative");
     monthlyFee += monthlyFee * percent / 100;
   }
-  public bool DecreaseFee(decimal amount)
+
+  public void DecreaseFee(decimal amount)
   {
-    decimal newFee = MonthlyFee - amount;
-
-    if (newFee < 0)
-    {
-      MonthlyFee = 0;
-      return false;
-    }
-
-    MonthlyFee = newFee;
-    return true;
+    if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount), "Decrease amount cannot be negative");
+    if (amount > MonthlyFee) throw new ArgumentOutOfRangeException(nameof(amount), "Cannot decrease by more than current monthly fee");
+    monthlyFee -= amount;
   }
-  public bool DecreaseFee(int percent)
+
+  public void DecreaseFee(int percent)
   {
-    decimal newFee = MonthlyFee - MonthlyFee * percent / 100;
-
-    if (newFee < 0)
-    {
-      MonthlyFee = 0;
-      return false;
-    }
-
-    MonthlyFee = newFee;
-    return true;
+    if (percent < 0) throw new ArgumentOutOfRangeException(nameof(percent), "Decrease percent cannot be negative");
+    if (percent > 100) throw new ArgumentOutOfRangeException(nameof(percent), "Cannot decrease by more than 100%");
+    monthlyFee -= monthlyFee * percent / 100;
   }
 }

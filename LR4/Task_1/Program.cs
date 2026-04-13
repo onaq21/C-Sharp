@@ -7,21 +7,56 @@ class Program
   {
     ATC atc = ATC.GetInstance();
 
-   atc.StationAddress = InputHandler.ReadStr("Enter the address of the ATC station: ");
+    while (true)
+    {
+      try
+      {
+        atc.StationAddress = InputHandler.ReadStr("Enter the address of the ATC station: ");
+        break;
+      }
+      catch (ArgumentException e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
 
-  atc.SubscribersCount = InputHandler.ReadInt("Enter the number of subscribers: ");
+    while (true)
+    {
+      try
+      {
+        atc.SubscribersCount = InputHandler.ReadInt("Enter the number of subscribers: ");
+        break;
+      }
+      catch (ArgumentOutOfRangeException e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
 
-  decimal monthlyFee = InputHandler.ReadDecimal("Enter the monthly fee for the tariff: ");
-  Tariff tariff = new Tariff(monthlyFee);
-  atc.CurrentTariff = tariff;
+    while (true)
+    {
+      try
+      {
+        decimal monthlyFee = InputHandler.ReadDecimal("Enter the monthly fee for the tariff: ");
+        Tariff tariff = new Tariff(monthlyFee);
+        atc.CurrentTariff = tariff;
+        break;
+      }
+      catch (ArgumentOutOfRangeException e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      catch (ArgumentNullException e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
 
-  Console.WriteLine("\nATC data successfully set:");
-  Console.WriteLine($"Station Address: {atc.StationAddress}");
-  Console.WriteLine($"Subscribers Count: {atc.SubscribersCount}");
-  Console.WriteLine($"Monthly Fee: {atc.CurrentTariff.MonthlyFee:C}");
+    Console.WriteLine("\nATC data successfully set:");
+    Console.WriteLine($"Station Address: {atc.StationAddress}");
+    Console.WriteLine($"Subscribers Count: {atc.SubscribersCount}");
+    Console.WriteLine($"Monthly Fee: {atc.CurrentTariff.MonthlyFee:C}");
 
-
-    
     while (true)
     {
       Console.WriteLine("\nChoose an action:");
@@ -80,15 +115,27 @@ class Program
           {
             case 1:
               decimal amount = InputHandler.ReadDecimal("Enter amount: ");
-              if (!atc.CurrentTariff.DecreaseFee(amount))
-                Console.WriteLine("Tariff cannot be negative. It was set to 0.");
-              Console.WriteLine($"New tariff: {atc.CurrentTariff.MonthlyFee:C}");
+              try
+              {
+                atc.CurrentTariff.DecreaseFee(amount);
+                Console.WriteLine($"New tariff: {atc.CurrentTariff.MonthlyFee:C}");
+              }
+              catch (ArgumentOutOfRangeException e)
+              {
+                Console.WriteLine(e.Message);
+              }
               break;
-            case 2: 
+            case 2:
               int percent = InputHandler.ReadInt("Enter percent: ");
-              if (!atc.CurrentTariff.DecreaseFee(percent))
-                Console.WriteLine("Tariff cannot be negative. It was set to 0.");
-              Console.WriteLine($"New tariff: {atc.CurrentTariff.MonthlyFee:C}");
+              try
+              {
+                atc.CurrentTariff.DecreaseFee(percent);
+                Console.WriteLine($"New tariff: {atc.CurrentTariff.MonthlyFee:C}");
+              }
+              catch (ArgumentOutOfRangeException e)
+              {
+                Console.WriteLine(e.Message);
+              }
               break;
             default:
               Console.WriteLine("Invalid method.");
