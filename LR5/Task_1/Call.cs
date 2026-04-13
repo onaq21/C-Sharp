@@ -7,6 +7,8 @@ public class Call
 
   public Call(City city, int duration)
   {
+    if (duration <= 0)
+      throw new ArgumentException("Duration must be positive", nameof(duration));
     City = city;
     Duration = duration;
   }

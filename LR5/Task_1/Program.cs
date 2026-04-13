@@ -17,7 +17,7 @@ class Program
     atc.RegisterCall("Bob", new Call(City.London, 5));
     atc.RegisterCall("Alice", new Call(City.Paris, 20));
 
-    bool registered = atc.RegisterCall("Alice", new Call(City.Berlin, 7));
+    bool registered = atc.RegisterCall("UnknownPerson", new Call(City.Berlin, 7));
     if (!registered)
     {
       Console.WriteLine("Warning: call not registered — client not found");

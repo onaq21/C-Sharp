@@ -8,8 +8,10 @@ public class Client
 
   public Client(string lastName)
   {
-    LastName = lastName;
-    calls = new List<Call>();
+      if (string.IsNullOrWhiteSpace(lastName))
+        throw new ArgumentException("Last name cannot be empty", nameof(lastName));
+      LastName = lastName;
+      calls = new List<Call>();
   }
 
   public void RegisterCall(Call call)
