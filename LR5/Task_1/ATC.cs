@@ -3,9 +3,9 @@ namespace Task_1;
 public class ATC
 {
   private List<Tariff> tariffs;
-  
+
   private List<Client> clients;
-  
+
   public ATC()
   {
     tariffs = new List<Tariff>();
@@ -50,6 +50,7 @@ public class ATC
         return true;
       }
     }
+
     return false;
   }
 
@@ -75,12 +76,14 @@ public class ATC
             }
           }
 
-          if (!tariffFound) 
+          if (!tariffFound)
             return CalculationResult.TariffNotFound;
         }
+
         return CalculationResult.Success;
       }
     }
+
     return CalculationResult.ClientNotFound;
   }
 
@@ -111,5 +114,15 @@ public class ATC
     }
 
     return hasError ? CalculationResult.TariffNotFound : CalculationResult.Success;
+  }
+
+  public IReadOnlyList<Tariff> GetTariffs()
+  {
+    return tariffs.ToList();
+  }
+
+  public IReadOnlyList<Client> GetClients()
+  {
+    return clients.ToList();
   }
 }
